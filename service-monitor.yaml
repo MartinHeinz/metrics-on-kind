@@ -1,0 +1,16 @@
+kind: ServiceMonitor
+apiVersion: monitoring.coreos.com/v1
+metadata:
+  name: resource-consumer
+  namespace: custom-metrics
+  labels:
+    app: resource-consumer
+spec:
+  endpoints:
+    - port: http
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      app: resource-consumer

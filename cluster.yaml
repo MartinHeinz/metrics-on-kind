@@ -1,0 +1,14 @@
+# Clean-up:
+# kind delete clusters autoscaling
+
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+featureGates:
+  HPAScaleToZero: true
+  HPAContainerMetrics: true
+  LogarithmicScaleDown: true
+nodes:
+- role: control-plane
+- role: worker
+- role: worker
+- role: worker

@@ -1,0 +1,38 @@
+# https://github.com/kubernetes-sigs/prometheus-adapter/blob/master/docs/config-walkthrough.md
+
+# kubectl apply -f custom-metrics-config-map.yaml
+# kubectl delete pod $(kubectl get pod -l app=custom-metrics-apiserver -o jsonpath="{.items[0].metadata.name}" -n custom-metrics) -n custom-metrics
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: adapter-config
+  namespace: custom-metrics
+data:
+  config.yaml: |
+    rules:
+      - seriesQuery: '{namespace!="",__name__!~"^container_.*"}'
+        seriesFilters:
+        - isNot: .*_total$
+        - isNot: ^external.*
+        resources:
+          template: <<.Resource>>
+        name:
+          matches: ""
+          as: ""
+        metricsQuery: sum(<<.Series>>{<<.LabelMatchers>>}) by (<<.GroupBy>>)
+    externalRules:
+      - seriesQuery: '{__name__=~"^external_queue_.*"}'
+        resources:
+          #template: <<.Resource>>
+          overrides:
+            namespace:
+              resource: namespace
+            service:
+              resource: service
+            pod:
+              resource: pod
+        name:
+          matches: ""
+          as: "external_queue_messages_ready"
+        metricsQuery: 'sum(<<.Series>>{<<.LabelMatchers>>})'
+
