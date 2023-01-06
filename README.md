@@ -2,6 +2,12 @@
 
 Self-contained KinD (Kubernetes in Docker) environment for testing custom and external Kubernetes metrics API and alpha/beta features of _HorizontalPodAutoscaler (HPA)_.
 
+-----
+
+If you find this useful, you can support me on Ko-Fi (Donations are always appreciated, but never required):
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K6F4XN6)
+
 ## Prerequisites
 
 - Docker
